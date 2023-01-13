@@ -1,6 +1,6 @@
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Data Source=.;Initial Catalog=farm_api_try1;Integrated Security=True; TrustServerCertificate=True;"
+    "DefaultConnection": "Data Source=  DESKTOP-PSSR580;Initial Catalog=farm_api_try1;Integrated Security=True; TrustServerCertificate=True;"
   },
 
   "IsEncrypted": false,
