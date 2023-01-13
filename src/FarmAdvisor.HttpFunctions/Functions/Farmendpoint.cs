@@ -49,10 +49,10 @@ namespace FarmAdvisor_HttpFunctions.Functions
             string city = data?.city;
             string country = data?.country;
 
-        var farm = new FarmModel {Name = name, Postcode = postcode, City = city , Country = country};
+            var farm = new FarmModel { Name = name, Postcode = postcode, City = city, Country = country };
 
 
-        FarmModel responseMessage;
+            FarmModel responseMessage;
             try
             {
                 responseMessage = await _crud.Create<FarmModel>(farm);
@@ -64,11 +64,75 @@ namespace FarmAdvisor_HttpFunctions.Functions
             return new OkObjectResult(responseMessage);
         }
 
-        string responseMessage = string.IsNullOrEmpty(name)
-                ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {name}. This HTTP triggered function executed successfully.";
+        [FunctionName("FarmendpointNew")]
+        public async Task<IActionResult> GetFarmNew(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Farmendpoint/{id}")] HttpRequest req, Guid id,
+            ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
 
+            FarmModel responseMessage;
+
+            try
+            {
+                responseMessage = await _crud.Find<FarmModel>(id);
+            }
+            catch (Exception ex)
+            {
+                return new NotFoundObjectResult(ex);
+            }
             return new OkObjectResult(responseMessage);
         }
+
+        [FunctionName("FarmendpointDel")]
+        public async Task<IActionResult> DelFarm(
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "Farmendpoint/{id}")] HttpRequest req, Guid id,
+            ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+            FarmModel responseMessage;
+
+            try
+            {
+                responseMessage = await _crud.Delete<FarmModel>(id);
+            }
+            catch (Exception ex)
+            {
+                return new NotFoundObjectResult(ex);
+            }
+            return new OkObjectResult(responseMessage);
+        }
+        [FunctionName("FarmendpointEdit")]
+
+        public async Task<ActionResult<FarmModel>> EditFarm([HttpTrigger(AuthorizationLevel.Function, "put", Route = "Farmendpoint/{id}")] HttpRequest req, Guid id,
+            ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+
+            var farm = await _crud.Find<FarmModel>(id);
+
+            farm.Name = data?.name;
+            farm.Postcode = data?.postcode;
+            farm.City= data?.city;
+            farm.Country= data?.country;
+
+
+            FarmModel responseMessage;
+            try
+            {
+                responseMessage = await _crud.Update<FarmModel>(id, farm);
+            }
+            catch (Exception ex)
+            {
+                return new NotFoundObjectResult(ex);
+            }
+            return new OkObjectResult(responseMessage);
+        }
+
     }
-}
+
+    }
