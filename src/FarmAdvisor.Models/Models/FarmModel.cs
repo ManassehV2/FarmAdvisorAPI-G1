@@ -13,5 +13,9 @@ namespace FarmAdvisor.Models.Models
 
         public ICollection<UserModel>? Users { get; set; }
 
+        public static implicit operator FarmModel(bool v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
