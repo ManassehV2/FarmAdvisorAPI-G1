@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\FarmAdvisor.HttpFunctions\FarmAdvisor_HttpFunctions.csproj" />
     <ProjectReference Include="..\FarmAdvisor.Common.Test\FarmAdvisor.Common.Test.csproj" />
+    <ProjectReference Include="..\..\src\FarmAdvisor.DataAccess.AzureTableStorage\FarmAdvisor.DataAccess.AzureTableStorage.csproj" />
   </ItemGroup>
 
 </Project>

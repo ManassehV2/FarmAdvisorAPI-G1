@@ -51,5 +51,17 @@ namespace FarmAdvisor.DataAccess.AzureTableStorage.services
             await tableClient.UpsertEntityAsync<T>(entity);
             return entity;
         }
+
+        public async Task<List<T>> GetEntitiesAsync<T> () where T: class, ITableEntity, new()
+        {
+            var tableClient = await GetTableClient();
+            var entities = tableClient.QueryAsync<T>();
+            var entitiesList = new List<T>();
+            await foreach (var entitiy in entities) {
+                entitiesList.Add(entitiy);
+            }
+            
+            return entitiesList;
+        }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using FarmAdvisor.DataAccess.MSSQL.Entities;
 using System.Diagnostics;
-
+using FarmAdvisor.Models.Models;
 
 namespace FarmAdvisor.DataAccess.MSSQL.DataContext
 {
@@ -41,6 +41,8 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
         public DbSet<Farm> Farms { get; set; }
 
         public DbSet<Sensor> Sensors { get; set; }
+
+        public DbSet<SensorData> SensorData { get; set; }
 
         public DbSet<Notification> Notifications { get; set; }
 

@@ -24,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FarmAdvisor.Models\FarmAdvisor.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Functions\Specific\" />
   </ItemGroup>
 
