@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,6 +9,7 @@ namespace FarmAdvisor.Models.Models
     public class SensorData
     {
         [Key]
+        public Guid Id { get; set; }
         public string? serialNum { get; set; }
         public string? type { get; set; }
         public bool? batteryStatus { get; set; }
