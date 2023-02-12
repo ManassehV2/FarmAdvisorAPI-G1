@@ -2,6 +2,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace FarmAdvisor.Models.Models
 {
@@ -26,5 +28,10 @@ namespace FarmAdvisor.Models.Models
         //     sampleOffsets = new List<int>();
         // }
 
+        public Guid SensorId { get; set; }
+
+        [JsonIgnore]
+        [IgnoreDataMember]
+        public SensorModel Sensor { get; set; }
     }
 }

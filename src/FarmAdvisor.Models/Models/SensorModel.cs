@@ -25,8 +25,9 @@
 
 
         public FieldModel? Field { get; set; }
-        //public ICollection<UserModel>? Users { get; set; }
-
+        
+        public ICollection<SensorData>? SensorData { get; set; }
+        public ICollection<CalculatedGDD>? CalculatedGDD { get; set;}
 
 
 

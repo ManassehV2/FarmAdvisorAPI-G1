@@ -170,7 +170,17 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
 
             #endregion
 
+            modelBuilder.Entity<SensorData>()
+                .HasOne(us => us.Sensor)
+                .WithMany(b => b.SensorData)
+                .HasForeignKey(p => p.SensorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<CalculatedGDD>()
+                .HasOne(us => us.Sensor)
+                .WithMany(b => b.CalculatedGDD)
+                .HasForeignKey(p => p.SensorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
         }
