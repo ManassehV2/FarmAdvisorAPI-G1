@@ -1,6 +1,6 @@
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Data Source=.\\SQLEXPRESS;Initial Catalog=farm_api_try1;Integrated Security=True;TrustServerCertificate=True;"
+    "DefaultConnection": "Data Source=DESKTOP-1B0AQP9;Initial Catalog=farm_api_try1;Integrated Security=True;TrustServerCertificate=True;"
   },
 
   

@@ -11,6 +11,7 @@ using FarmAdvisor.DataAccess.MSSQL.DataContext;
 using FarmAdvisor.DataAccess.MSSQL.Functions.Interfaces;
 using FarmAdvisor.Models.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace FarmAdvisor_HttpFunctions.Functionsw
 {
@@ -66,17 +67,23 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            FieldModel responseMessage;
 
             try
             {
-                responseMessage = await _crud.Find<FieldModel>(id);
+                using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
+                {
+                    var responseMessage = context.Fields
+                            .Where(u => u.FieldId == id)
+                            .Include("Sensors")
+                            .FirstOrDefault();
+                    return new OkObjectResult(responseMessage);
+
+                }
             }
             catch (Exception ex)
             {
                 return new NotFoundObjectResult(ex);
             }
-            return new OkObjectResult(responseMessage);
         }
     }
 }

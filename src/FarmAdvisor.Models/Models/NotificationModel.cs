@@ -1,4 +1,6 @@
-﻿using static FarmAdvisor.Models.Models.SensorModel;
+﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using static FarmAdvisor.Models.Models.SensorModel;
 
 namespace FarmAdvisor.Models.Models
 {
@@ -30,6 +32,10 @@ namespace FarmAdvisor.Models.Models
         }
         public StatusEnum Status { get; set; }
 
+        public Guid FarmId { get; set; }
+
+        [JsonIgnore]
+        [IgnoreDataMember]
         public FarmModel? Farm { get; set; }
 
     }

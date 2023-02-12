@@ -14,16 +14,17 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Linq;
 using FarmAdvisor.Business;
 using System.Collections.Generic;
+using FarmAdvisor.DataAccess.MSSQL.Functions.Interfaces;
 
 namespace FarmAdvisor_HttpFunctions.Functions
 {
     public class WeatherAPI
     {
 
-        private readonly Crud _crud;
-        public WeatherAPI()
+        private readonly ICrud _crud;
+        public WeatherAPI(ICrud crud)
         {
-            _crud = new Crud();
+            _crud = crud;
         }
         [FunctionName("WeatherAPI")]
         public async Task<IActionResult> Run(
@@ -35,14 +36,19 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-            if (Guid.TryParse(data.FieldID, out Guid id))
-            {
-                var field = await _crud.Find<FieldModel>(id); 
-                if (field != null)
+            
+
+            string fieldID = data?.FieldID;
+            Guid id = new Guid(fieldID);
+            var field = await _crud.Find<FieldModel>(id);
+            log.LogInformation($"{field}");
+           
+            if (field != null)
                 {
                     using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
                     {
-                        var allsensors = context.Sensors.Where(s => s.Field.FieldId ==id).ToList();
+                        var allsensors = context.Sensors.Where(s => s.FieldId ==id).ToList();
+                    log.LogInformation(allsensors.ToString());
 
                         var result = new List<WeatherForecast>();
 
@@ -59,12 +65,9 @@ namespace FarmAdvisor_HttpFunctions.Functions
                 }
                 else
                 {
+                log.LogInformation("notfound");
                     return new NotFoundObjectResult(data);
                 }
             }
-
-
-            return new BadRequestObjectResult(data);
-        }
     }
 }

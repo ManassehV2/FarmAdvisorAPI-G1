@@ -99,8 +99,12 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
             modelBuilder.Entity("FarmAdvisor.Models.Models.NotificationModel", b =>
                 {
                     b.Property<Guid>("NotificationId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Notification_id");
+
+                    b.Property<Guid>("FarmId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Message")
                         .IsRequired()
@@ -126,14 +130,15 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 
                     b.HasKey("NotificationId");
 
+                    b.HasIndex("FarmId");
+
                     b.ToTable("notification", (string)null);
                 });
 
             modelBuilder.Entity("FarmAdvisor.Models.Models.SensorData", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("serialNum")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool?>("batteryStatus")
                         .HasColumnType("bit");
@@ -150,9 +155,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Property<string>("sampleOffsets")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("serialNum")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("signal")
                         .HasColumnType("int");
 
@@ -165,7 +167,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Property<string>("type")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("serialNum");
 
                     b.ToTable("SensorDatas");
                 });
@@ -173,22 +175,26 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
             modelBuilder.Entity("FarmAdvisor.Models.Models.SensorModel", b =>
                 {
                     b.Property<Guid>("SensorId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("sensor_id");
 
-                    b.Property<int>("BatteryStatus")
+                    b.Property<int?>("BatteryStatus")
                         .HasColumnType("int")
                         .HasColumnName("battery_status");
 
-                    b.Property<DateTime>("CuttingDateTimeCalculated")
+                    b.Property<DateTime?>("CuttingDateTimeCalculated")
                         .HasColumnType("datetime2")
                         .HasColumnName("estimated_date");
 
-                    b.Property<DateTime>("LastCommunication")
+                    b.Property<Guid>("FieldId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastCommunication")
                         .HasColumnType("datetime2")
                         .HasColumnName("last_communication");
 
-                    b.Property<DateTime>("LastForecastDate")
+                    b.Property<DateTime?>("LastForecastDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("last_forecast_date");
 
@@ -200,7 +206,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                         .HasColumnType("float")
                         .HasColumnName("longitude");
 
-                    b.Property<int>("OptimalGDD")
+                    b.Property<int?>("OptimalGDD")
                         .HasColumnType("int")
                         .HasColumnName("optimal_gdd");
 
@@ -215,6 +221,8 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                         .HasColumnName("state");
 
                     b.HasKey("SensorId");
+
+                    b.HasIndex("FieldId");
 
                     b.ToTable("sensor", (string)null);
                 });
@@ -280,7 +288,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                 {
                     b.HasOne("FarmAdvisor.Models.Models.FarmModel", "Farm")
                         .WithMany("Notifications")
-                        .HasForeignKey("NotificationId")
+                        .HasForeignKey("FarmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -291,8 +299,8 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                 {
                     b.HasOne("FarmAdvisor.Models.Models.FieldModel", "Field")
                         .WithMany("Sensors")
-                        .HasForeignKey("SensorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Field");

@@ -17,7 +17,7 @@ namespace FarmAdvisor.HttpFunctions
         {
             services.AddTransient<ICrud, Crud>();
             services.AddScoped<ITableStorageService, TableStorageService>();
-            services.AddScoped<ICrud, Crud>();
+            services.AddScoped<DataAccess.MSSQL.Functions.Interfaces.ICrud, Crud>();
         }
 
 
