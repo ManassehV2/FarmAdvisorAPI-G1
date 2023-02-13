@@ -66,7 +66,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
         [FunctionName("GetUserApiNew")]
         public async Task<IActionResult> GetUserNew(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UserApi/{id}")] HttpRequest req, Guid id,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UserApi/{id}")] HttpRequest req, string id,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -77,7 +77,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
                 using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
                 {
                 var responseMessage = context.Users
-                        .Where(u => u.UserID == id)
+                        .Where(u => u.AuthId == id)
                         .Include("Farms")
                         .FirstOrDefault();
                 return new OkObjectResult(responseMessage);

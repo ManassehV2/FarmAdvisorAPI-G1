@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmAdvisor.IntegrationTest", "FarmAdvisor.IntegrationTest\FarmAdvisor.IntegrationTest.csproj", "{18EEBD8C-CE36-4CFC-8864-E5C7DF9E82D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{FF22EEAF-3BA7-47FB-98BD-CB573D0B4005}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF22EEAF-3BA7-47FB-98BD-CB573D0B4005}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF22EEAF-3BA7-47FB-98BD-CB573D0B4005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18EEBD8C-CE36-4CFC-8864-E5C7DF9E82D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18EEBD8C-CE36-4CFC-8864-E5C7DF9E82D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18EEBD8C-CE36-4CFC-8864-E5C7DF9E82D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18EEBD8C-CE36-4CFC-8864-E5C7DF9E82D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{6CAA3BD3-C377-4642-8787-026D416EB1CE} = {52915C80-FBDC-49CB-BB3D-0582CC6F2421}
 		{FE7C2370-24C4-4F54-8FB6-78C8EA746EF6} = {728F6C8B-32B3-4F41-935B-267EC394B73C}
 		{FF22EEAF-3BA7-47FB-98BD-CB573D0B4005} = {52915C80-FBDC-49CB-BB3D-0582CC6F2421}
+		{18EEBD8C-CE36-4CFC-8864-E5C7DF9E82D5} = {52915C80-FBDC-49CB-BB3D-0582CC6F2421}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6D9B9B71-2D3B-4416-8BB4-3E022DD18261}
