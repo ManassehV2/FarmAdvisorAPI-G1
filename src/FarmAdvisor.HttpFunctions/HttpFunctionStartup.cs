@@ -15,7 +15,7 @@ namespace FarmAdvisor.HttpFunctions
     {
         public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ICrud, Crud>();
+            // services.AddTransient<ICrud, Crud>();
             services.AddScoped<ITableStorageService, TableStorageService>();
             services.AddScoped<ICrud, Crud>();
 

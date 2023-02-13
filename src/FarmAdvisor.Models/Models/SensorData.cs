@@ -11,7 +11,7 @@ namespace FarmAdvisor.Models.Models
     public class SensorData
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid SensorDataId { get; set; }
         public string? serialNum { get; set; }
         public string? type { get; set; }
         public bool? batteryStatus { get; set; }
