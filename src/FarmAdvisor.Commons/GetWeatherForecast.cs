@@ -9,6 +9,8 @@ namespace FarmAdvisor.Business
         private readonly HttpClient _httpCLient;
   
 
+
+
         public GetWeatherForecast()
         {
             _httpCLient = new HttpClient();
