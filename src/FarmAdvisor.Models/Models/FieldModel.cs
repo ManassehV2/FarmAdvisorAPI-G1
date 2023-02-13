@@ -9,7 +9,8 @@ namespace FarmAdvisor.Models.Models
         public string? Name { get; set; } = string.Empty;
         public int? Alt { get; set; }
         public string? Polygon { get; set; }
-
+        public int accumulatedGdd { get; set; }
+        public string? forecastedGdd { get; set; }
         public Guid FarmId { get; set; }
 
         [JsonIgnore]

@@ -50,9 +50,34 @@ namespace FarmAdvisor.HttpFunctions.Functions
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.BadRequest,
         Summary = "If no sensordata can be fetched",
         Description = "If no sensordata can be fetched")]
-        public async Task<IActionResult> ResetGDDByDate([HttpTrigger(AuthorizationLevel.Function, "update", Route = "users/farms/fields/sensors/Gdd/reset/{id}")] HttpRequest req) {
-            
+        public async Task<IActionResult> ResetGDDByDate([HttpTrigger(AuthorizationLevel.Function, "update", Route = "users/farms/fields/reset/{id}")] HttpRequest req, string id) {
+            FieldModel field = await _crud.Find<FieldModel>(new Guid(id));
+
+            if (field == null) {
+                return new NotFoundObjectResult(field);
+            }
+            GDDService gDDService = new GDDService(_crud);
+            field.accumulatedGdd = 0;
+            SensorModel currSensor = field.Sensors.OfType<SensorModel>().FirstOrDefault();
+
+            if (currSensor == null) {
+                return new NotFoundObjectResult("no sensor registered");
+            }
+
+            field.forecastedGdd = await gDDService.getForecastedGddIncreases(currSensor);
+            return new OkObjectResult(field);
         }
+
+        [FunctionName("UpdateGDD")]
+        public async Task<IActionResult> UpdateGDD([HttpTrigger(AuthorizationLevel.Function, "get", Route = "users/farms/fields/update")] HttpRequest req) { 
+            GDDService service = new GDDService(_crud);
+            SensorModel sensor = new SensorModel();
+            sensor.Lat = 100;
+            sensor.Long = 45;
+            var forcast = await service.getForecastedGddIncreases(sensor);
+
+            return new OkObjectResult(forcast);
+         }
 
     }
 }
