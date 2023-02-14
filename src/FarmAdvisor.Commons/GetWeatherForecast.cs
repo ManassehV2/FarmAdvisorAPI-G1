@@ -33,7 +33,7 @@ namespace FarmAdvisor.Business
                             .FirstOrDefault();
 
 
-                    WeatherForecast response = await _httpCLient.GetFromJsonAsync<WeatherForecast>($"https://api.met.no/weatherapi/locationforecast/2.0/complete?lat={sensor.Lat.ToString()}&lon={sensor.Long.ToString()}&altitude={Field.Alt.ToString()}");
+                    WeatherForecast response = await _httpCLient.GetFromJsonAsync<WeatherForecast>($"https://api.met.no/weatherapi/locationforecast/2.0/complete?lat={sensor.Lat.ToString()}&lon={sensor.Long.ToString()}&altitude=123");
                     return response;
                 }
             }
