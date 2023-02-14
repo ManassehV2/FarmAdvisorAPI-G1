@@ -21,6 +21,7 @@ using FarmAdvisor.DataAccess.MSSQL.Functions.Interfaces;
 // using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using FarmAdvisor.DataAccess.AzureTableStorage.services;
 using FarmAdvisor.HttpFunctions.Services;
+using System.Collections.ObjectModel;
 
 namespace FarmAdvisor.HttpFunctions.Functions
 {
@@ -70,14 +71,103 @@ namespace FarmAdvisor.HttpFunctions.Functions
 
         [FunctionName("UpdateGDD")]
         public async Task<IActionResult> UpdateGDD([HttpTrigger(AuthorizationLevel.Function, "get", Route = "users/farms/fields/update")] HttpRequest req) { 
-            GDDService service = new GDDService(_crud);
-            SensorModel sensor = new SensorModel();
-            sensor.Lat = 100;
-            sensor.Long = 45;
-            var forcast = await service.getForecastedGddIncreases(sensor);
 
-            return new OkObjectResult(forcast);
+            try {
+                List<FieldModel> fields = await _crud.FindAll<FieldModel>();
+                if (true) {
+                    var user = new UserModel();
+                    user.AuthId = "01";
+                    user.Email = "email";
+                    user.Name = "myUser";
+                    user.Phone = "32";
+                    user = await _crud.Create<UserModel>(user);
+
+                    FarmModel farm = new FarmModel();
+                    farm.UserId = user.UserID;
+                    farm.City = "AA";
+                    farm.Country = "Eth";
+                    farm.Name = "myFarm";
+                    farm.Postcode = "10";
+                    farm = await _crud.Create<FarmModel>(farm);
+
+                    FieldModel field = new FieldModel();
+                    field.FarmId = farm.FarmId;
+                    field.accumulatedGdd = 0;
+                    field.forecastedGdd = " ";
+                    field.Alt = 100;
+                    field.Name = "myfield";
+                    field.Polygon = "whatPolygon";
+                    field = await _crud.Create<FieldModel>(field);
+
+                    fields.Add(field);
+                    SensorModel sensor = new SensorModel();
+                    Console.WriteLine("0 fields found");
+                    sensor.FieldId = field.FieldId;
+                    sensor.BatteryStatus = 10;
+                    sensor.OptimalGDD = 500;
+                    sensor.Lat = 5;
+                    sensor.Long = 10;
+                    await _crud.Create<SensorModel>(sensor);
+                }
+                GDDService gDDService = new GDDService(_crud);
+                var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions);
+                foreach (var field in fields) {
+                    var allsensors = context.Sensors.Where(s => s.FieldId == field.FieldId).ToList();
+                    if (allsensors.Capacity == 0) {
+                        continue;
+                    }
+                    if (allsensors.Capacity <= 0) {
+                        continue;
+                    }
+                    var sensor = allsensors[0];
+                    var forcastedGddIncrease = await gDDService.getForecastedGddIncreases(sensor);
+                    field.forecastedGdd = forcastedGddIncrease;
+
+                    Console.WriteLine(field.forecastedGdd);
+                    field.accumulatedGdd += gDDService.getAccumulatedGddIncrease();
+                    Console.WriteLine(field.accumulatedGdd);
+                    await _crud.Update<FieldModel>(field.FieldId, field);
+                }
+
+                return new OkObjectResult("updated GDD");
+                
+            } catch {
+                _logger.LogInformation("Error while updating field GDD");
+                return new UnprocessableEntityObjectResult("unable to update GDD");
+            }
+
          }
+
+
+        [FunctionName("UpdateFieldsGDD")]
+        public async Task updateFarmsGDD([TimerTrigger("0 */1 * * * *")]TimerInfo myTimer) {
+
+            try {
+                List<FieldModel> fields = await _crud.FindAll<FieldModel>();
+
+                GDDService gDDService = new GDDService(_crud);
+                var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions);
+                foreach (var field in fields) {
+                    var allsensors = context.Sensors.Where(s => s.FieldId == field.FieldId).ToList();
+                    if (allsensors.Capacity == 0) {
+                        continue;
+                    }
+                    if (allsensors.Capacity <= 0) {
+                        continue;
+                    }
+                    var sensor = allsensors[0];
+                    var forcastedGddIncrease = await gDDService.getForecastedGddIncreases(sensor);
+                    field.forecastedGdd = forcastedGddIncrease;
+
+                    field.accumulatedGdd += gDDService.getAccumulatedGddIncrease();
+                    await _crud.Update<FieldModel>(field.FieldId, field);
+                }
+                
+            } catch {
+                _logger.LogInformation("Error while updating field GDD");
+            }
+            
+        }
 
     }
 }

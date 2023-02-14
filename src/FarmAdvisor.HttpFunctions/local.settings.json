@@ -1,7 +1,7 @@
 {
-  "ConnectionStrings": {
-    "DefaultConnection": "Data Source=DESKTOP-PVN5LQR\\SQLEXPRESS;Initial Catalog=farm_api_try1;Integrated Security=True;TrustServerCertificate=True;"
-  },
+    "ConnectionStrings": {
+        "DefaultConnection": "Server=.\\SQLEXPRESS;Initial Catalog=MyDatabase;Integrated Security=True;TrustServerCertificate=True;"
+    },
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
