@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230213203806_init")]
+    [Migration("20230214031312_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,29 +29,34 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Property<Guid>("FarmId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
+                        .HasDefaultValue(new Guid("00000000-0000-0000-0000-000000000000"))
                         .HasColumnName("farm_id");
 
                     b.Property<string>("City")
-                        .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("Addis Ababa")
                         .HasColumnName("city");
 
                     b.Property<string>("Country")
-                        .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
+                        .HasDefaultValue("Ethio")
                         .HasColumnName("country");
 
                     b.Property<string>("Name")
-                        .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
+                        .HasDefaultValue("Farm mock")
                         .HasColumnName("farm_name");
 
                     b.Property<string>("Postcode")
-                        .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
+                        .HasDefaultValue("12,AA")
                         .HasColumnName("postcode");
 
                     b.Property<Guid>("UserId")
@@ -69,6 +74,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Property<Guid>("FieldId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
+                        .HasDefaultValue(new Guid("00000000-0000-0000-0000-000000000000"))
                         .HasColumnName("Field_id");
 
                     b.Property<int?>("Alt")

@@ -49,11 +49,11 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                 name: "farm",
                 columns: table => new
                 {
-                    farm_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    farm_name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    postcode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    city = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    country = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    farm_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValue: new Guid("00000000-0000-0000-0000-000000000000")),
+                    farm_name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, defaultValue: "Farm mock"),
+                    postcode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, defaultValue: "12,AA"),
+                    city = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "Addis Ababa"),
+                    country = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true, defaultValue: "Ethio"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -71,7 +71,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                 name: "field",
                 columns: table => new
                 {
-                    Field_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Field_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValue: new Guid("00000000-0000-0000-0000-000000000000")),
                     Field_name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     altitude = table.Column<int>(type: "int", nullable: false),
                     polygon = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),

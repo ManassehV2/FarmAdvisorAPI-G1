@@ -79,17 +79,13 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<FarmModel>().ToTable("farm");
             //Primary Key & Identity Column
             modelBuilder.Entity<FarmModel>().HasKey(us => us.FarmId);
-            modelBuilder.Entity<FarmModel>().Property(us => us.FarmId).IsRequired().HasColumnName("farm_id");
+            modelBuilder.Entity<FarmModel>().Property(us => us.FarmId).IsRequired().HasColumnName("farm_id").HasDefaultValue(new Guid());
             //COLUMN SETTINGS 
-            modelBuilder.Entity<FarmModel>().Property(us => us.Name).HasMaxLength(100).HasColumnName("farm_name");
-            modelBuilder.Entity<FarmModel>().Property(us => us.Postcode).HasMaxLength(100).HasColumnName("postcode");
-            modelBuilder.Entity<FarmModel>().Property(us => us.City).HasColumnName("city");
-            modelBuilder.Entity<FarmModel>().Property(us => us.Country).HasMaxLength(250).HasColumnName("country");
-            modelBuilder.Entity<FarmModel>().Property(us => us.Name).IsRequired(true).HasMaxLength(100).HasColumnName("farm_name");
-            modelBuilder.Entity<FarmModel>().Property(us => us.Postcode).IsRequired(true).HasMaxLength(100).HasColumnName("postcode");
-            modelBuilder.Entity<FarmModel>().Property(us => us.City).IsRequired(true).HasColumnName("city");
-            modelBuilder.Entity<FarmModel>().Property(us => us.Country).IsRequired(true).HasMaxLength(250).HasColumnName("country");
-
+            modelBuilder.Entity<FarmModel>().Property(us => us.Name).HasMaxLength(100).HasColumnName("farm_name").HasDefaultValue("Farm mock");
+            modelBuilder.Entity<FarmModel>().Property(us => us.Postcode).HasMaxLength(100).HasColumnName("postcode").HasDefaultValue("12,AA");
+            modelBuilder.Entity<FarmModel>().Property(us => us.City).HasColumnName("city").HasDefaultValue("Addis Ababa");
+            modelBuilder.Entity<FarmModel>().Property(us => us.Country).HasMaxLength(250).HasColumnName("country").HasDefaultValue("Ethio");
+            
             /*modelBuilder.Entity<FarmModel>()
                 .HasMany(us => us.Notifications)
                 .WithOne(us => us.Farm)
@@ -107,7 +103,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             #region Field
             modelBuilder.Entity<FieldModel>().ToTable("field");
             modelBuilder.Entity<FieldModel>().HasKey(us => us.FieldId);
-            modelBuilder.Entity<FieldModel>().Property(us => us.FieldId).IsRequired().HasColumnName("Field_id");
+            modelBuilder.Entity<FieldModel>().Property(us => us.FieldId).IsRequired().HasColumnName("Field_id").HasDefaultValue(new Guid());
             modelBuilder.Entity<FieldModel>().Property(us => us.Name).HasMaxLength(100).HasColumnName("Field_name");
             modelBuilder.Entity<FieldModel>().Property(us => us.Polygon).HasMaxLength(100).HasColumnName("polygon");
             modelBuilder.Entity<FieldModel>().Property(us => us.Alt).HasColumnName("altitude");

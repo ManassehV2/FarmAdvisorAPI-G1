@@ -65,10 +65,10 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
         [FunctionName("GetUserApiNew")]
         public async Task<IActionResult> GetUserNew(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UserApi/{id}")] HttpRequest req, string id,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UserApi/{id}")] HttpRequest req, string id)
+            
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+         //   log.LogInformation("C# HTTP trigger function processed a request.");
 
 
             try
@@ -90,35 +90,43 @@ namespace FarmAdvisor_HttpFunctions.Functions
         }
         [FunctionName("UserApiEdit")]
         public async Task<ActionResult<UserModel>> EditUser(
-            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "UserApi/{id}")] HttpRequest req, Guid id,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "UserApi/{id}")] HttpRequest req, string id
+            )
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+
 
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-            var user = await _crud.Find<UserModel>(id);
-
-            user.Name = data?.name;
-            user.Phone = data?.phone;
-            user.Email = data?.email;
-            user.AuthId = data?.authId;
-
-
-            UserModel responseMessage;
-            try
+            //var user = await _crud.Find<UserModel>(id);
+            using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
             {
-                responseMessage = await _crud.Update<UserModel>(id, user);
+
+                var user = context.Users
+                        .Where(u => u.AuthId == id)
+                        .FirstOrDefault();
+                user.Name = data?.name;
+                user.Phone = data?.phone;
+                user.Email = data?.email;
+                user.AuthId = data?.authId;
+
+
+
+
+                UserModel responseMessage;
+                try
+                {
+                    responseMessage = await _crud.Update<UserModel>(user.UserID, user);
+                }
+                catch (Exception ex)
+                {
+                    return new NotFoundObjectResult(ex);
+                }
+                return new OkObjectResult(responseMessage);
+
             }
-            catch (Exception ex)
-            {
-                return new NotFoundObjectResult(ex);
-            }
-            return new OkObjectResult(responseMessage);
         }
-
         [FunctionName("UserApiDelete")]
         public async Task<ActionResult<UserModel>> DeleteUser(
            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "UserApi/{id}")] HttpRequest req, Guid id,

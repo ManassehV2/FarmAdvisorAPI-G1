@@ -28,10 +28,10 @@ namespace FarmAdvisor_HttpFunctions.Functions
         }
         [FunctionName("AddSensor")]
         public async Task<ActionResult<SensorModel>> AddSensor(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req
+            )
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
@@ -60,6 +60,14 @@ namespace FarmAdvisor_HttpFunctions.Functions
                 {
                     return new BadRequestObjectResult(ex);
                 }
+                string ver = data?.fieldId;
+                Guid FieldId = new Guid(ver);
+
+                FieldModel field = await _crud.Find<FieldModel>(FieldId);
+                if ( field == null)
+                {
+                    return new NotFoundObjectResult("No farm found");
+                }
 
                 int batteryStatus = data?.batteryStatus;
                 int optimalGDD = data?.optimalGDD;
@@ -86,10 +94,10 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
         [FunctionName("GetSensor")]
         public async Task<IActionResult> GetSensor(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "SensorApi/{id}")] HttpRequest req, Guid id,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "SensorApi/{id}")] HttpRequest req, Guid id
+            )
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+           
 
             SensorModel responseMessage;
 

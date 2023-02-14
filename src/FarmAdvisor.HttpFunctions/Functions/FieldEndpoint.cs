@@ -26,10 +26,10 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
 
         [FunctionName("AddFieldEndpoint")]
         public async Task<ActionResult<FarmModel>> AddFieldModel(
-           [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
-           ILogger log)
+           [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req
+           )
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+           
 
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -60,12 +60,14 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
             return new OkObjectResult(responseMessage);
         }
 
+       
+
         [FunctionName("GetFieldEndpoint")]
         public async Task<IActionResult> GetFieldModel(
-           [HttpTrigger(AuthorizationLevel.Function, "get", Route = "FieldApi/{id}")] HttpRequest req, Guid id,
-           ILogger log)
+           [HttpTrigger(AuthorizationLevel.Function, "get", Route = "FieldApi/{id}")] HttpRequest req, Guid id
+           )
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            
 
 
             try
