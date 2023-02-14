@@ -37,7 +37,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
 
 
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-            string? userId = data?.userId;
+            string userId = data?.userId;
 
             if (userId is null)
             {
@@ -49,7 +49,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
             string Country = data?.country;
 
             Guid UserId = new Guid(userId);
-            UserModel? user = await _crud.Find<UserModel>(UserId);
+            UserModel user = await _crud.Find<UserModel>(UserId);
 
             if (user is null)
             {

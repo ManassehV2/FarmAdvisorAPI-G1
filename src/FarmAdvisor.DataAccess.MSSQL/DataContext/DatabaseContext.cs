@@ -38,17 +38,17 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
-        public DbSet<UserModel> Users { get; set; }
+        public DbSet<UserModel>? Users { get; set; }
 
-        public DbSet<FarmModel> Farms { get; set; }
+        public DbSet<FarmModel>? Farms { get; set; }
 
-        public DbSet<SensorModel> Sensors { get; set; }
+        public DbSet<SensorModel>? Sensors { get; set; }
 
-        public DbSet<SensorData> SensorDatas { get; set; }
+        public DbSet<SensorData>? SensorDatas { get; set; }
 
-        public DbSet<NotificationModel> Notifications { get; set; }
+        public DbSet<NotificationModel>? Notifications { get; set; }
 
-        public DbSet<FieldModel> Fields { get; set; }
+        public DbSet<FieldModel>? Fields { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

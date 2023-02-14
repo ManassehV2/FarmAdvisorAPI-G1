@@ -72,7 +72,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
 
             try
             {
-                using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
+                using ( var context =  new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
                 {
                     var responseMessage = context.Fields
                             .Where(u => u.FieldId == id)
@@ -84,7 +84,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
             }
             catch (Exception ex)
             {
-                return new NotFoundObjectResult(ex);
+                return new  NotFoundObjectResult(ex);
             }
         }
     }

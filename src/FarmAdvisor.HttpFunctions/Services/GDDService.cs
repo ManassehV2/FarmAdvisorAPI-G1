@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using FarmAdvisor.Models.Models;
 using System.Threading.Tasks;
 using FarmAdvisor_HttpFunctions.Functions;
-using FarmAdvisor.Business;
 using System.Net.Http;
 using System.Net.Http.Json;
 using FarmAdvisor.DataAccess.MSSQL.DataContext;

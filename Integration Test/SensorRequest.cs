@@ -3,9 +3,9 @@
     public class SensorRequest
     {
         
-        public String LastCommunication { get; set; }
-        public String CuttingDateTimeCalculated { get; set; }
-        public String LastForecastData { get; set; }
+        public String? LastCommunication { get; set; }
+        public String? CuttingDateTimeCalculated { get; set; }
+        public String? LastForecastData { get; set; }
         public int BatteryStatus { get; set; }
         public int Lat { get; set; }
 

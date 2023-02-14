@@ -27,12 +27,12 @@ namespace FarmAdvisor.HttpFunctions.Functions
 {
     public class GDDFunctions
     {
-        private readonly ILogger<FarmFieldFunctions> _logger;
+  
         private readonly ICrud _crud;
 
-        public GDDFunctions(ILogger<FarmFieldFunctions> logger, ICrud crud)
+        public GDDFunctions(ICrud crud)
         {
-            _logger = logger;
+            
             _crud = crud;
         }
 
@@ -132,7 +132,6 @@ namespace FarmAdvisor.HttpFunctions.Functions
                 return new OkObjectResult("updated GDD");
                 
             } catch {
-                _logger.LogInformation("Error while updating field GDD");
                 return new UnprocessableEntityObjectResult("unable to update GDD");
             }
 
@@ -164,7 +163,7 @@ namespace FarmAdvisor.HttpFunctions.Functions
                 }
                 
             } catch {
-                _logger.LogInformation("Error while updating field GDD");
+                Console.WriteLine("Error while updating field GDD");
             }
             
         }

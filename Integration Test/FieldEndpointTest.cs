@@ -49,10 +49,10 @@ namespace FarmAdvisor.IntegrationTest
             request.Method = "POST";
             var json = JsonConvert.SerializeObject(new FieldRequest
             {
-                name= "name",
-                altitude = "124",
-                polygon = "rectangle",
-                farmId = "49f5eb3f-3d97-439f-caaa-08db0e48ae8c"
+                Name= "name",
+                Altitude = "124",
+                Polygon = "rectangle",
+                FarmId = "49f5eb3f-3d97-439f-caaa-08db0e48ae8c"
             });
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
             request.Body = stream;

@@ -26,12 +26,12 @@ namespace FarmAdvisor.HttpFunctions.Functions
 {
     public class SensorDataFunctions
     {
-        private readonly ILogger<FarmFieldFunctions> _logger;
+       
         private readonly ICrud _crud;
 
-        public SensorDataFunctions(ILogger<FarmFieldFunctions> logger, ICrud crud)
+        public SensorDataFunctions( ICrud crud)
         {
-            _logger = logger;
+           
             _crud = crud;
         }
 
@@ -60,7 +60,7 @@ namespace FarmAdvisor.HttpFunctions.Functions
         public async Task<IActionResult> GetAllSensordatas(
              [HttpTrigger(AuthorizationLevel.Function, "get", Route = "users/farms/fields/sensorData")] HttpRequest req)
         {
-            _logger.LogInformation("Executing {method}", nameof(GetAllSensordatas));
+            Console.WriteLine("Executing {method}", nameof(GetAllSensordatas));
             var sensorDatas = await _crud.FindAll<SensorData>();
 
             return new OkObjectResult(sensorDatas);
@@ -91,9 +91,9 @@ namespace FarmAdvisor.HttpFunctions.Functions
         public async Task<IActionResult> UpsertSensorDatas([HttpTrigger(AuthorizationLevel.Function, "post", Route = "users/farms/fields/sensorData")] HttpRequest req) {
             SensorApi api = new SensorApi();
             List<SensorData> sensorDatas = api.getReadings();
-            _logger.LogInformation(sensorDatas[0].ToString());
+            Console.WriteLine(sensorDatas[0].ToString());
             foreach (SensorData data in sensorDatas) {
-                _logger.LogInformation(data.ToString());
+                Console.WriteLine(data.ToString());
                 await _crud.Create<SensorData>(data);
             }
             

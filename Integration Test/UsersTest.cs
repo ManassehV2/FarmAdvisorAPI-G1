@@ -48,15 +48,15 @@ namespace FarmAdvisor.IntegrationTest
             Assert.True(final?.UserID is Guid);
            // Assert.Equal(final.Name, "user");
         }
-        public readonly ILogger log;
+ 
         [Fact ]  
         public async Task GetUserNewTest()
         {
             var httpContext = new DefaultHttpContext();
             var request = httpContext.Request;
             var jsonResult = await _userFunctions.GetUserNew(request,"token");
-            var result = (HttpStatusCode)jsonResult.GetType().GetProperty("StatusCode")
-                .GetValue(jsonResult, null);
+            var result = (HttpStatusCode)jsonResult.GetType().GetProperty("StatusCode")!
+                .GetValue(jsonResult, null)!;
             Assert.Equal(200, (int)result);
             
         }

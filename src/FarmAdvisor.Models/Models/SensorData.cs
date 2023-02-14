@@ -32,6 +32,6 @@ namespace FarmAdvisor.Models.Models
 
         [JsonIgnore]
         [IgnoreDataMember]
-        public SensorModel Sensor { get; set; }
+        public SensorModel ?Sensor { get; set; }
     }
 }
