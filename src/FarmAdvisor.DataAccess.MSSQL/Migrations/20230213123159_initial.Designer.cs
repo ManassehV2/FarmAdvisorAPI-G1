@@ -4,6 +4,7 @@ using FarmAdvisor.DataAccess.MSSQL.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230213123159_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,34 +51,29 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Property<Guid>("FarmId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValue(new Guid("00000000-0000-0000-0000-000000000000"))
                         .HasColumnName("farm_id");
 
                     b.Property<string>("City")
-                        .ValueGeneratedOnAdd()
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("Addis Ababa")
                         .HasColumnName("city");
 
                     b.Property<string>("Country")
-                        .ValueGeneratedOnAdd()
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasDefaultValue("Ethio")
                         .HasColumnName("country");
 
                     b.Property<string>("Name")
-                        .ValueGeneratedOnAdd()
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasDefaultValue("Farm mock")
                         .HasColumnName("farm_name");
 
                     b.Property<string>("Postcode")
-                        .ValueGeneratedOnAdd()
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasDefaultValue("12,AA")
                         .HasColumnName("postcode");
 
                     b.Property<Guid>("UserId")
@@ -94,7 +91,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Property<Guid>("FieldId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValue(new Guid("00000000-0000-0000-0000-000000000000"))
                         .HasColumnName("Field_id");
 
                     b.Property<int?>("Alt")
@@ -275,38 +271,29 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Property<Guid>("UserID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValue(new Guid("00000000-0000-0000-0000-000000000000"))
                         .HasColumnName("user_id");
 
                     b.Property<string>("AuthId")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasDefaultValue("token")
                         .HasColumnName("auth_id");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasDefaultValue("user@test.com")
                         .HasColumnName("email");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasDefaultValue("user")
                         .HasColumnName("user_name");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("System.Random")
                         .HasColumnName("phone_number");
 
                     b.HasKey("UserID");

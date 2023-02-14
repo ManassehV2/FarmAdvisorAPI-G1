@@ -1,6 +1,9 @@
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace FarmAdvisor.Models.Models
 {
@@ -8,7 +11,7 @@ namespace FarmAdvisor.Models.Models
     public class SensorData
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid SensorDataId { get; set; }
         public string? serialNum { get; set; }
         public string? type { get; set; }
         public bool? batteryStatus { get; set; }
@@ -25,5 +28,10 @@ namespace FarmAdvisor.Models.Models
         //     sampleOffsets = new List<int>();
         // }
 
+        public Guid SensorId { get; set; }
+
+        [JsonIgnore]
+        [IgnoreDataMember]
+        public SensorModel Sensor { get; set; }
     }
 }

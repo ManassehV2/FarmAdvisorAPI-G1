@@ -1,7 +1,4 @@
 using FarmAdvisor.DataAccess.AzureTableStorage.services;
-using FarmAdvisor.DataAccess.MSSQL.Functions.Interfaces;
-using FarmAdvisor.DataAccess.MSSQL.Functions.Crud;
-
 using FarmAdvisor.DataAccess.MSSQL.Functions.Crud;
 using FarmAdvisor.DataAccess.MSSQL.Functions.Interfaces;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
@@ -18,7 +15,7 @@ namespace FarmAdvisor.HttpFunctions
     {
         public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ICrud, Crud>();
+            // services.AddTransient<ICrud, Crud>();
             services.AddScoped<ITableStorageService, TableStorageService>();
             services.AddScoped<ICrud, Crud>();
 

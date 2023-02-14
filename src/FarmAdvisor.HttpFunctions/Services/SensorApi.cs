@@ -31,7 +31,7 @@ namespace FarmAdvisor.HttpFunctions.Services
                     offsets += rnd.Next(-5, 5).ToString();
                     offsets += " ";
                 }
-                sensorData.sampleOffsets = offsets;
+                sensorData.sampleOffsets = offsets.Trim();
                 sensorData.type = "measurement_type_temperature";
                 sensorData.timeStamp = DateTime.Now.ToLongDateString();
                 sensorData.startPoint = rnd.Next(10, 35);

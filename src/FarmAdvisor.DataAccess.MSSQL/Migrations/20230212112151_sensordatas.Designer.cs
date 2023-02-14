@@ -4,6 +4,7 @@ using FarmAdvisor.DataAccess.MSSQL.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230212112151_sensordatas")]
+    partial class sensordatas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,61 +24,34 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("FarmAdvisor.Models.Models.CalculatedGDD", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SensorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("currentValue")
-                        .HasColumnType("int");
-
-                    b.Property<int>("date")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SensorId");
-
-                    b.ToTable("CalculatedGDD");
-                });
-
             modelBuilder.Entity("FarmAdvisor.Models.Models.FarmModel", b =>
                 {
                     b.Property<Guid>("FarmId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValue(new Guid("00000000-0000-0000-0000-000000000000"))
                         .HasColumnName("farm_id");
 
                     b.Property<string>("City")
-                        .ValueGeneratedOnAdd()
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("Addis Ababa")
                         .HasColumnName("city");
 
                     b.Property<string>("Country")
-                        .ValueGeneratedOnAdd()
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasDefaultValue("Ethio")
                         .HasColumnName("country");
 
                     b.Property<string>("Name")
-                        .ValueGeneratedOnAdd()
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasDefaultValue("Farm mock")
                         .HasColumnName("farm_name");
 
                     b.Property<string>("Postcode")
-                        .ValueGeneratedOnAdd()
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasDefaultValue("12,AA")
                         .HasColumnName("postcode");
 
                     b.Property<Guid>("UserId")
@@ -94,7 +69,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Property<Guid>("FieldId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValue(new Guid("00000000-0000-0000-0000-000000000000"))
                         .HasColumnName("Field_id");
 
                     b.Property<int?>("Alt")
@@ -117,12 +91,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("polygon");
 
-                    b.Property<int>("accumulatedGdd")
-                        .HasColumnType("int");
-
-                    b.Property<string>("forecastedGdd")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("FieldId");
 
                     b.HasIndex("FarmId");
@@ -133,12 +101,8 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
             modelBuilder.Entity("FarmAdvisor.Models.Models.NotificationModel", b =>
                 {
                     b.Property<Guid>("NotificationId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("Notification_id");
-
-                    b.Property<Guid>("FarmId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Message")
                         .IsRequired()
@@ -164,18 +128,13 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 
                     b.HasKey("NotificationId");
 
-                    b.HasIndex("FarmId");
-
                     b.ToTable("notification", (string)null);
                 });
 
             modelBuilder.Entity("FarmAdvisor.Models.Models.SensorData", b =>
                 {
-                    b.Property<Guid>("SensorDataId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SensorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool?>("batteryStatus")
@@ -208,9 +167,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Property<string>("type")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SensorDataId");
-
-                    b.HasIndex("SensorId");
+                    b.HasKey("Id");
 
                     b.ToTable("SensorDatas");
                 });
@@ -218,26 +175,22 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
             modelBuilder.Entity("FarmAdvisor.Models.Models.SensorModel", b =>
                 {
                     b.Property<Guid>("SensorId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("sensor_id");
 
-                    b.Property<int?>("BatteryStatus")
+                    b.Property<int>("BatteryStatus")
                         .HasColumnType("int")
                         .HasColumnName("battery_status");
 
-                    b.Property<DateTime?>("CuttingDateTimeCalculated")
+                    b.Property<DateTime>("CuttingDateTimeCalculated")
                         .HasColumnType("datetime2")
                         .HasColumnName("estimated_date");
 
-                    b.Property<Guid>("FieldId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("LastCommunication")
+                    b.Property<DateTime>("LastCommunication")
                         .HasColumnType("datetime2")
                         .HasColumnName("last_communication");
 
-                    b.Property<DateTime?>("LastForecastDate")
+                    b.Property<DateTime>("LastForecastDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("last_forecast_date");
 
@@ -249,7 +202,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                         .HasColumnType("float")
                         .HasColumnName("longitude");
 
-                    b.Property<int?>("OptimalGDD")
+                    b.Property<int>("OptimalGDD")
                         .HasColumnType("int")
                         .HasColumnName("optimal_gdd");
 
@@ -265,8 +218,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
 
                     b.HasKey("SensorId");
 
-                    b.HasIndex("FieldId");
-
                     b.ToTable("sensor", (string)null);
                 });
 
@@ -275,54 +226,34 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                     b.Property<Guid>("UserID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValue(new Guid("00000000-0000-0000-0000-000000000000"))
                         .HasColumnName("user_id");
 
                     b.Property<string>("AuthId")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
-                        .HasDefaultValue("token")
                         .HasColumnName("auth_id");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasDefaultValue("user@test.com")
                         .HasColumnName("email");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasDefaultValue("user")
                         .HasColumnName("user_name");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("System.Random")
                         .HasColumnName("phone_number");
 
                     b.HasKey("UserID");
 
                     b.ToTable("user", (string)null);
-                });
-
-            modelBuilder.Entity("FarmAdvisor.Models.Models.CalculatedGDD", b =>
-                {
-                    b.HasOne("FarmAdvisor.Models.Models.SensorModel", "Sensor")
-                        .WithMany("CalculatedGDD")
-                        .HasForeignKey("SensorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Sensor");
                 });
 
             modelBuilder.Entity("FarmAdvisor.Models.Models.FarmModel", b =>
@@ -351,30 +282,19 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
                 {
                     b.HasOne("FarmAdvisor.Models.Models.FarmModel", "Farm")
                         .WithMany("Notifications")
-                        .HasForeignKey("FarmId")
+                        .HasForeignKey("NotificationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Farm");
                 });
 
-            modelBuilder.Entity("FarmAdvisor.Models.Models.SensorData", b =>
-                {
-                    b.HasOne("FarmAdvisor.Models.Models.SensorModel", "Sensor")
-                        .WithMany("SensorData")
-                        .HasForeignKey("SensorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Sensor");
-                });
-
             modelBuilder.Entity("FarmAdvisor.Models.Models.SensorModel", b =>
                 {
                     b.HasOne("FarmAdvisor.Models.Models.FieldModel", "Field")
                         .WithMany("Sensors")
-                        .HasForeignKey("FieldId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("SensorId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Field");
@@ -390,13 +310,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.Migrations
             modelBuilder.Entity("FarmAdvisor.Models.Models.FieldModel", b =>
                 {
                     b.Navigation("Sensors");
-                });
-
-            modelBuilder.Entity("FarmAdvisor.Models.Models.SensorModel", b =>
-                {
-                    b.Navigation("CalculatedGDD");
-
-                    b.Navigation("SensorData");
                 });
 
             modelBuilder.Entity("FarmAdvisor.Models.Models.UserModel", b =>
