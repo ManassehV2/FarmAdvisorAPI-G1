@@ -66,7 +66,7 @@ namespace FarmAdvisor.IntegrationTest
 
 
         }
-        public readonly ILogger log;
+        
         [Fact]
         public async Task GetUserNewTest()
         {
@@ -74,8 +74,8 @@ namespace FarmAdvisor.IntegrationTest
             var request = httpContext.Request;
             request.Method = "GET";
             var jsonResult = await _fieldFunctions.GetFieldModel(request, new Guid());
-            var result = (HttpStatusCode)jsonResult.GetType().GetProperty("StatusCode")
-                .GetValue(jsonResult, null);
+            var result = (HttpStatusCode)jsonResult.GetType().GetProperty("StatusCode")!
+                .GetValue(jsonResult, null)!;
             Assert.Equal(200, (int)result);
 
         }

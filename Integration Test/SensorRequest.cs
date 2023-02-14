@@ -3,17 +3,17 @@
     public class SensorRequest
     {
         
-        public String lastCommunication { get; set; }
-        public String cuttingDateTimeCalculated { get; set; }
-        public String lastForecastData { get; set; }
-        public int batteryStatus { get; set; }
-        public int lat { get; set; }
+        public String LastCommunication { get; set; }
+        public String CuttingDateTimeCalculated { get; set; }
+        public String LastForecastData { get; set; }
+        public int BatteryStatus { get; set; }
+        public int Lat { get; set; }
 
-        public string state{ get; set; }
+        public string? State{ get; set; }
 
-        public int longt { get; set; }
-        public int optimalGDD { get; set; }
-        public String fieldId { get; set; }
+        public int Longt { get; set; }
+        public int OptimalGDD { get; set; }
+        public String? FieldId { get; set; }
 
 
 

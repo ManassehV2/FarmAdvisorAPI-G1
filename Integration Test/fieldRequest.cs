@@ -2,9 +2,9 @@
 {
     public class FieldRequest
     {
-        public String farmId { get; set; }
-        public String name { get; set; }
-        public String altitude { get; set; }
-        public String polygon { get; set; }
+        public String? FarmId { get; set; }
+        public String? Fame { get; set; }
+        public String? Altitude { get; set; }
+        public String? Polygon { get; set; }
     }
 }

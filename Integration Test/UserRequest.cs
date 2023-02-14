@@ -2,9 +2,9 @@
 {
     public class UserRequest
     {
-        public String name { get; set; } 
-        public String phone { get; set; }  
-        public String email { get; set; }
-        public String authId { get; set; }
+        public String? Name { get; set; } 
+        public String? Phone { get; set; }  
+        public String? FieldId { get; set; }
+        public String? AuthId { get; set; }
     }
 }

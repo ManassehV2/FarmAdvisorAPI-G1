@@ -66,8 +66,8 @@ namespace FarmAdvisor.IntegrationTest
             var httpContext = new DefaultHttpContext();
             var request = httpContext.Request;
             var jsonResult = await _userFunctions.EditUser(request, "token");
-            var result = (NotFoundObjectResult)jsonResult.Result;
-            Assert.Equal(404, (int)result.StatusCode);
+            var result = (NotFoundObjectResult)jsonResult.Result!;
+            Assert.Equal(404, (int)result.StatusCode!);
 
         }
 
