@@ -22,12 +22,6 @@ namespace FarmAdvisor.Models.Models
         public int startPoint { get; set; }
         public string? sampleOffsets { get; set; }
         public string? cloudToken { get; set; }
-        // public Channel channels { get; set; }
-
-        // public SensorData() {
-        //     sampleOffsets = new List<int>();
-        // }
-
         public Guid SensorId { get; set; }
 
         [JsonIgnore]

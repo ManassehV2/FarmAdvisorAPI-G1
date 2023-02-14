@@ -62,7 +62,7 @@ namespace FarmAdvisor.HttpFunctions.Services {
             return forcastedIncreaseString;
         }
 
-        public int getAccumulatedGddIncrease() {
+        public static int getAccumulatedGddIncrease() {
             SensorApi sensorApi = new SensorApi();
             List<SensorData> datas = sensorApi.getReadings();
 

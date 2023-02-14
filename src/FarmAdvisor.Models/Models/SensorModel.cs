@@ -33,7 +33,6 @@ namespace FarmAdvisor.Models.Models
         public FieldModel? Field { get; set; }
         
         public ICollection<SensorData>? SensorData { get; set; }
-        public ICollection<CalculatedGDD>? CalculatedGDD { get; set;}
 
 
 
