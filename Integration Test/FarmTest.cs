@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Microsoft.Extensions.Hosting;
 
-using Microsoft.Extensions.Logging;
+
 using FarmAdvisor.HttpFunctions;
 using FarmAdvisor_HttpFunctions.Functions;
 using FarmAdvisor.DataAccess.MSSQL.Functions.Interfaces;
@@ -45,15 +45,14 @@ namespace FarmAdvisor.IntegrationTest
 
             
         }
-        public readonly ILogger log;
         [Fact]
         public async Task GetUserNewTest()
         {
             var httpContext = new DefaultHttpContext();
             var request = httpContext.Request;
             var jsonResult = await _farmFunctions.GetFarmModel(request, new Guid());
-            var result = (HttpStatusCode)jsonResult.GetType().GetProperty("StatusCode")
-                .GetValue(jsonResult, null);
+            var result = (HttpStatusCode)jsonResult.GetType().GetProperty("StatusCode")!
+                .GetValue(jsonResult, null)!;
             Assert.Equal(200, (int)result);
 
         }
