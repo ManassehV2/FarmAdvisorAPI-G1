@@ -74,10 +74,9 @@ namespace FarmAdvisor_HttpFunctions.Functions
                 
                 double lat = data?.lat;
                 double longt = data?.longt;
-                StateEnum state = (StateEnum)StateEnum.Parse(typeof(StateEnum), data?.state.ToString());
-                var sensor = new SensorModel { SensorId = Guid.NewGuid(), SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, State = state };
+                State state = (State)State.Parse(typeof(State), data?.state.ToString());
+                var sensor = new SensorModel { SensorId = Guid.NewGuid(), SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, SensorState = state };
 
-                //SensorModel responseMessage;
 
                 try
                 {
@@ -114,7 +113,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
 
         [FunctionName("GetSensorsInField")]
-        public async Task<IActionResult> GetSensorsInField(
+        public static async Task<IActionResult> GetSensorsInField(
            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "allSensors/{id}")] HttpRequest req, Guid id,
            ILogger log)
         {
@@ -123,13 +122,13 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
             try
             {
-                using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
+                await using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
                 {
+
                     var responseMessage = context.Sensors
                             .Where(u => u.FieldId == id).ToList();
 
                     return new OkObjectResult(responseMessage);
-
                 }
             }
             catch (Exception ex)
@@ -157,7 +156,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
             sensor.Lat = data?.lat;
             sensor.Long = data?.longt;
             sensor.Long = data?.longt;
-            sensor.State = data?.state;
+            sensor.SensorState = data?.state;
 
             SensorModel responseMessage;
             try

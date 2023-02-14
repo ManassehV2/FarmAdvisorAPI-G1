@@ -60,7 +60,6 @@ namespace FarmAdvisor.HttpFunctions.Functions
         public async Task<IActionResult> GetAllSensordatas(
              [HttpTrigger(AuthorizationLevel.Function, "get", Route = "users/farms/fields/sensorData")] HttpRequest req)
         {
-            Console.WriteLine("Executing {method}", nameof(GetAllSensordatas));
             var sensorDatas = await _crud.FindAll<SensorData>();
 
             return new OkObjectResult(sensorDatas);
@@ -91,7 +90,6 @@ namespace FarmAdvisor.HttpFunctions.Functions
         public async Task<IActionResult> UpsertSensorDatas([HttpTrigger(AuthorizationLevel.Function, "post", Route = "users/farms/fields/sensorData")] HttpRequest req) {
             SensorApi api = new SensorApi();
             List<SensorData> sensorDatas = api.getReadings();
-            Console.WriteLine(sensorDatas[0].ToString());
             foreach (SensorData data in sensorDatas) {
                 Console.WriteLine(data.ToString());
                 await _crud.Create<SensorData>(data);

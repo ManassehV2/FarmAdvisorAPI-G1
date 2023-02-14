@@ -70,16 +70,14 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
         }
 
         [FunctionName("GetFarmEndpoint")]
-        public async Task<IActionResult> GetFarmModel(
+        public static async Task<IActionResult> GetFarmModel(
            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "FarmApi/{id}")] HttpRequest req, Guid id
           )
         {
            
-
-
             try
             {
-                using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
+                await using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
                 {
                     var responseMessage = context.Farms
                             .Where(u => u.FarmId == id)

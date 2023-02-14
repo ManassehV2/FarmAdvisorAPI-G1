@@ -63,7 +63,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
        
 
         [FunctionName("GetFieldEndpoint")]
-        public async Task<IActionResult> GetFieldModel(
+        public static async Task<IActionResult> GetFieldModel(
            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "FieldApi/{id}")] HttpRequest req, Guid id
            )
         {
@@ -72,7 +72,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
 
             try
             {
-                using ( var context =  new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
+                await using ( var context =  new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
                 {
                     var responseMessage = context.Fields
                             .Where(u => u.FieldId == id)

@@ -18,13 +18,13 @@ namespace FarmAdvisor.Models.Models
         public double Lat { get; set; }
         public double Long { get; set; }
 
-        public enum StateEnum
+        public enum State
         {
             Working,
             Warning,
             Failed
         }
-        public StateEnum? State { get; set; }
+        public State? SensorState { get; set; }
 
         public Guid FieldId { get; set; }
 

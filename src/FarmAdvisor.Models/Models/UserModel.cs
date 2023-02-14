@@ -12,6 +12,5 @@ namespace FarmAdvisor.Models.Models
 
        public ICollection<FarmModel>? Farms { get; set; }
 
-
     }
 }
