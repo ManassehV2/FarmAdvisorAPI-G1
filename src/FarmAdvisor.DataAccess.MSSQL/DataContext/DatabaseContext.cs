@@ -58,17 +58,12 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<UserModel>().ToTable("user");
             //Primary Key & Identity Column
             modelBuilder.Entity<UserModel>().HasKey(us => us.UserID);
-            modelBuilder.Entity<UserModel>().Property(us => us.UserID).HasColumnName("user_id").HasDefaultValue(new Guid());
+            modelBuilder.Entity<UserModel>().Property(us => us.UserID).HasColumnName("user_id").HasDefaultValue(Guid.NewGuid());
             //COLUMN SETTINGS 
             modelBuilder.Entity<UserModel>().Property(us => us.Name).HasMaxLength(100).HasColumnName("user_name").HasDefaultValue("user");
             modelBuilder.Entity<UserModel>().Property(us => us.Email).HasMaxLength(100).HasColumnName("email").HasDefaultValue("user@test.com");
             modelBuilder.Entity<UserModel>().Property(us => us.Phone).HasColumnName("phone_number");
             modelBuilder.Entity<UserModel>().Property(us => us.AuthId).HasMaxLength(250).HasColumnName("auth_id").HasDefaultValue("token");
-            /*modelBuilder.Entity<UserModel>().HasMany<FarmModel>(us => us.Farms)
-                .WithOne(us => us.User)
-                .HasForeignKey(us => us.FarmId)
-                .OnDelete(DeleteBehavior.Cascade);
-*/
 
 
             #endregion
@@ -79,31 +74,20 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<FarmModel>().ToTable("farm");
             //Primary Key & Identity Column
             modelBuilder.Entity<FarmModel>().HasKey(us => us.FarmId);
-            modelBuilder.Entity<FarmModel>().Property(us => us.FarmId).IsRequired().HasColumnName("farm_id").HasDefaultValue(new Guid());
+            modelBuilder.Entity<FarmModel>().Property(us => us.FarmId).IsRequired().HasColumnName("farm_id").HasDefaultValue(Guid.NewGuid());
             //COLUMN SETTINGS 
             modelBuilder.Entity<FarmModel>().Property(us => us.Name).HasMaxLength(100).HasColumnName("farm_name").HasDefaultValue("Farm mock");
             modelBuilder.Entity<FarmModel>().Property(us => us.Postcode).HasMaxLength(100).HasColumnName("postcode").HasDefaultValue("12,AA");
             modelBuilder.Entity<FarmModel>().Property(us => us.City).HasColumnName("city").HasDefaultValue("Addis Ababa");
             modelBuilder.Entity<FarmModel>().Property(us => us.Country).HasMaxLength(250).HasColumnName("country").HasDefaultValue("Ethio");
             
-            /*modelBuilder.Entity<FarmModel>()
-                .HasMany(us => us.Notifications)
-                .WithOne(us => us.Farm)
-                .HasForeignKey(us => us.NotificationId)
-                .OnDelete(DeleteBehavior.Cascade);*/
-
-            /*modelBuilder.Entity<FarmModel>().HasMany<FieldModel>(us => us.Fields)
-                .WithOne(us => us.Farm)
-                .HasForeignKey(us => us.FieldId)
-                .OnDelete(DeleteBehavior.Cascade);*/
-
             #endregion
 
 
             #region Field
             modelBuilder.Entity<FieldModel>().ToTable("field");
             modelBuilder.Entity<FieldModel>().HasKey(us => us.FieldId);
-            modelBuilder.Entity<FieldModel>().Property(us => us.FieldId).IsRequired().HasColumnName("Field_id").HasDefaultValue(new Guid());
+            modelBuilder.Entity<FieldModel>().Property(us => us.FieldId).IsRequired().HasColumnName("Field_id").HasDefaultValue(Guid.NewGuid());
             modelBuilder.Entity<FieldModel>().Property(us => us.Name).HasMaxLength(100).HasColumnName("Field_name");
             modelBuilder.Entity<FieldModel>().Property(us => us.Polygon).HasMaxLength(100).HasColumnName("polygon");
             modelBuilder.Entity<FieldModel>().Property(us => us.Alt).HasColumnName("altitude");
@@ -111,11 +95,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<FieldModel>().Property(us => us.Polygon).IsRequired(true).HasMaxLength(100).HasColumnName("polygon");
             modelBuilder.Entity<FieldModel>().Property(us => us.Alt).IsRequired(true).HasColumnName("altitude");
 
-
-            /*modelBuilder.Entity<FieldModel>().HasMany<SensorModel>(us => us.Sensors)
-                .WithOne(us => us.Field)
-                .HasForeignKey(us => us.SensorId)
-                .OnDelete(DeleteBehavior.Restrict);*/
             modelBuilder.Entity<FieldModel>()
                 .HasOne(us => us.Farm)
                 .WithMany(b => b.Fields)
@@ -157,15 +136,15 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<NotificationModel>().Property(us => us.Title).HasMaxLength(100).HasColumnName("title");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Message).HasMaxLength(200).HasColumnName("message");
             modelBuilder.Entity<NotificationModel>().Property(us => us.SentBy).HasConversion(
-            v => v!.ToString(), v => (SenderEnum)SenderEnum.Parse(typeof(SenderEnum), v)).HasColumnName("sent_by");
-            modelBuilder.Entity<NotificationModel>().Property(us => us.Status).HasConversion(
-            v => v!.ToString(), v => (StatusEnum)Enum.Parse(typeof(StatusEnum), v)).HasColumnName("status");
+            v => v!.ToString(), v => (Sender)Sender.Parse(typeof(Sender), v)).HasColumnName("sent_by");
+            modelBuilder.Entity<NotificationModel>().Property(us => us.NotificationStatus).HasConversion(
+            v => v!.ToString(), v => (Status)Enum.Parse(typeof(Status), v)).HasColumnName("status");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Title).IsRequired(true).HasMaxLength(100).HasColumnName("title");
             modelBuilder.Entity<NotificationModel>().Property(us => us.Message).IsRequired(true).HasMaxLength(200).HasColumnName("message");
             modelBuilder.Entity<NotificationModel>().Property(us => us.SentBy).IsRequired(true).HasConversion(
-            v => v.ToString(), v => (SenderEnum)SenderEnum.Parse(typeof(SenderEnum), v)).HasColumnName("sent_by");
-            modelBuilder.Entity<NotificationModel>().Property(us => us.Status).IsRequired(true).HasConversion(
-            v => v.ToString(), v => (StatusEnum)StatusEnum.Parse(typeof(StatusEnum), v)).HasColumnName("status");
+            v => v.ToString(), v => (Sender)Sender.Parse(typeof(Sender), v)).HasColumnName("sent_by");
+            modelBuilder.Entity<NotificationModel>().Property(us => us.NotificationStatus).IsRequired(true).HasConversion(
+            v => v.ToString(), v => (Status)Status.Parse(typeof(Status), v)).HasColumnName("status");
             modelBuilder.Entity<NotificationModel>()
                .HasOne(us => us.Farm)
                .WithMany(b => b.Notifications)
@@ -177,12 +156,6 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<SensorData>()
                 .HasOne(us => us.Sensor)
                 .WithMany(b => b.SensorData)
-                .HasForeignKey(p => p.SensorId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<CalculatedGDD>()
-                .HasOne(us => us.Sensor)
-                .WithMany(b => b.CalculatedGDD)
                 .HasForeignKey(p => p.SensorId)
                 .OnDelete(DeleteBehavior.Cascade);
 

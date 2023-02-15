@@ -124,7 +124,7 @@ namespace FarmAdvisor.HttpFunctions.Functions
                     field.forecastedGdd = forcastedGddIncrease;
 
                     Console.WriteLine(field.forecastedGdd);
-                    field.accumulatedGdd += gDDService.getAccumulatedGddIncrease();
+                    field.accumulatedGdd += GDDService.getAccumulatedGddIncrease();
                     Console.WriteLine(field.accumulatedGdd);
                     await _crud.Update<FieldModel>(field.FieldId, field);
                 }
@@ -143,7 +143,6 @@ namespace FarmAdvisor.HttpFunctions.Functions
 
             try {
                 List<FieldModel> fields = await _crud.FindAll<FieldModel>();
-
                 GDDService gDDService = new GDDService(_crud);
                 var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions);
                 foreach (var field in fields) {
@@ -158,7 +157,7 @@ namespace FarmAdvisor.HttpFunctions.Functions
                     var forcastedGddIncrease = await gDDService.getForecastedGddIncreases(sensor);
                     field.forecastedGdd = forcastedGddIncrease;
 
-                    field.accumulatedGdd += gDDService.getAccumulatedGddIncrease();
+                    field.accumulatedGdd += GDDService.getAccumulatedGddIncrease();
                     await _crud.Update<FieldModel>(field.FieldId, field);
                 }
                 

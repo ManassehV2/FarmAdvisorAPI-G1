@@ -15,22 +15,22 @@ namespace FarmAdvisor.Models.Models
 
         public string? Message { get; set; }
 
-        public enum SenderEnum
+        public enum Sender
         {
             Sensor,
             User,
             Field,
             Farm
         }
-        public SenderEnum SentBy { get; set; }
+        public Sender SentBy { get; set; }
 
-        public enum StatusEnum
+        public enum Status
         {
             Unknown,
             Done,
 
         }
-        public StatusEnum Status { get; set; }
+        public Status NotificationStatus { get; set; }
 
         public Guid FarmId { get; set; }
 
