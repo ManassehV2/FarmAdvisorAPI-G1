@@ -49,7 +49,7 @@ namespace FarmAdvisor.IntegrationTest
             request.Method = "POST";
             var json = JsonConvert.SerializeObject(new SensorRequest
             {
-               LastCommunication = "2/2/2022",
+              /* LastCommunication = "2/2/2022",
                CuttingDateTimeCalculated = "2/2/2022", 
                LastForecastData = "2/2/2022",
                Lat = (int)23.533534,
@@ -57,7 +57,7 @@ namespace FarmAdvisor.IntegrationTest
                BatteryStatus = 100,
                OptimalGDD = 450,
                State = "Working",
-               FieldId = "D347A588-F3A1-462A-67D3-08DB0E48F632"
+               FieldId = "9a4f7319-a12f-4f42-e0b4-08db0f4a482a" */
 
             });
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));

@@ -31,12 +31,12 @@ namespace FarmAdvisor_HttpFunctions.Functions
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req
             )
         {
-            
+
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-            string serialNumber = data?.SerialNumber;
+            string serialNumber = data?.serialNumber;
 
             SensorModel prevSensor;
             using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
@@ -52,31 +52,47 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
                 try
                 {
-                    lastCommunication = DateTime.Parse( data?.LastCommunication.ToString());
-                    cuttingDateTimeCalculated = DateTime.Parse( data?.CuttingDateTimeCalculated.ToString());
-                    lastForecastData = DateTime.Parse(data?.LastForecastData.ToString());
+                    lastCommunication = DateTime.Parse(data?.lastCommunication.ToString());
+                    cuttingDateTimeCalculated = DateTime.Parse(data?.cuttingDateTimeCalculated.ToString());
+                    lastForecastData = DateTime.Parse(data?.lastForecastData.ToString());
                 }
                 catch (FormatException ex)
                 {
                     return new BadRequestObjectResult(ex);
                 }
-                string ver = data?.FieldId;
+                string ver = data?.fieldId;
                 Guid FieldId = new Guid(ver);
 
+
                 FieldModel field = await _crud.Find<FieldModel>(FieldId);
-                if ( field == null)
+                if (field == null)
                 {
                     return new NotFoundObjectResult("No farm found");
                 }
 
-                int batteryStatus = data?.BatteryStatus;
-                int optimalGDD = data?.OptimalGDD;
-                
+                int batteryStatus = data?.batteryStatus;
+                int optimalGDD = data?.optimalGDD;
+
                 double lat = data?.lat;
                 double longt = data?.longt;
                 State state = (State)State.Parse(typeof(State), data?.state.ToString());
-                var sensor = new SensorModel { SensorId = Guid.NewGuid(), SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, SensorState = state };
+                Guid newId = Guid.NewGuid();
+                Console.WriteLine(newId.ToString());
+                var sensor = new SensorModel { 
+                    SensorId = newId , 
+                    SerialNumber = serialNumber,
+                    LastCommunication = lastCommunication, 
+                    BatteryStatus = batteryStatus, 
+                    OptimalGDD = optimalGDD, 
+                    CuttingDateTimeCalculated = cuttingDateTimeCalculated, 
+                    LastForecastDate = lastCommunication,
+                    Lat = lat, 
+                    Long = longt, 
+                    SensorState = state,
+                    FieldId = field.FieldId
+                };
 
+                //SensorModel responseMessage;
 
                 try
                 {
@@ -96,11 +112,11 @@ namespace FarmAdvisor_HttpFunctions.Functions
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "SensorApi/{id}")] HttpRequest req, Guid id
             )
         {
-           
+
 
             SensorModel responseMessage;
 
-            try
+try
             {
                 responseMessage = await _crud.Find<SensorModel>(id);
             }
@@ -113,7 +129,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
 
         [FunctionName("GetSensorsInField")]
-        public static async Task<IActionResult> GetSensorsInField(
+        public async Task<IActionResult> GetSensorsInField(
            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "allSensors/{id}")] HttpRequest req, Guid id,
            ILogger log)
         {
@@ -122,13 +138,13 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
             try
             {
-                await using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
+                using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
                 {
-
                     var responseMessage = context.Sensors
                             .Where(u => u.FieldId == id).ToList();
 
                     return new OkObjectResult(responseMessage);
+
                 }
             }
             catch (Exception ex)

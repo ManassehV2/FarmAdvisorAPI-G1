@@ -10,7 +10,6 @@
         public int Lat { get; set; }
 
         public string? State{ get; set; }
-        public String? SerialNumber { get; set; }
 
         public int Longt { get; set; }
         public int OptimalGDD { get; set; }

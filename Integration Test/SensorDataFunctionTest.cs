@@ -60,6 +60,7 @@ namespace FarmAdvisor.IntegrationTest
                 timeStamp = "2/2/2023",
                 startPoint = 23,
                 sampleOffsets = "test",
+                SensorId = Guid.NewGuid(),
                 
             });
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));

@@ -46,7 +46,7 @@ namespace FarmAdvisor.IntegrationTest
             
         }
         [Fact]
-        public async Task GetUserNewTest()
+        public async Task GetFarmTest()
         {
             var httpContext = new DefaultHttpContext();
             var request = httpContext.Request;

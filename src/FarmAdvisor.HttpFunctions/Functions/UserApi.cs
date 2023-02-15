@@ -33,23 +33,12 @@ namespace FarmAdvisor_HttpFunctions.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-            string phone = data?.Phone;
-
-            UserModel prevUser;
-            using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
-            {
-                prevUser = await context.Users.FirstOrDefaultAsync(s => s.Phone == phone);
-            }
-            if (prevUser != null)
-            {
-                return new ConflictObjectResult("Phone exists");
-            }
-
+            string Phone = data?.Phone;
             string name = data?.Name;
             string email = data?.Email;
             string authId = data?.AuthId;
 
-            var user = new UserModel { Name = name, Phone = phone, Email = email, AuthId = authId };
+            var user = new UserModel { Name = name, Phone = Phone, Email = email, AuthId = authId };
 
             UserModel responseMessage;
             try
@@ -64,7 +53,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
         }
 
         [FunctionName("GetUserApiNew")]
-        public static async Task<IActionResult> GetUserNew(
+        public  async Task<IActionResult> GetUserNew(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UserApi/{id}")] HttpRequest req, string id)
             
         {

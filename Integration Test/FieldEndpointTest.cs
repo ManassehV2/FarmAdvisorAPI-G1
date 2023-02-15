@@ -52,7 +52,7 @@ namespace FarmAdvisor.IntegrationTest
                 Name= "name",
                 Altitude = "124",
                 Polygon = "rectangle",
-                FarmId = "49f5eb3f-3d97-439f-caaa-08db0e48ae8c"
+                FarmId = "bac5904a-1ddf-4b3b-ab88-08db0f4a3dec"
             });
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
             request.Body = stream;
@@ -60,7 +60,7 @@ namespace FarmAdvisor.IntegrationTest
             request.ContentLength = stream.Length;
             request.ContentType = "application/json"; 
             var jsonResult = await _fieldFunctions.AddFieldModel(request);
-            var result = (OkObjectResult)jsonResult.Result!;
+            var result = (ObjectResult)jsonResult.Result!;
             Assert.Equal(200, result.StatusCode);
 
 
@@ -68,7 +68,7 @@ namespace FarmAdvisor.IntegrationTest
         }
         
         [Fact]
-        public async Task GetUserNewTest()
+        public async Task GetFieldModelTest()
         {
             var httpContext = new DefaultHttpContext();
             var request = httpContext.Request;

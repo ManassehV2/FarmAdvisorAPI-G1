@@ -35,7 +35,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-            string ver = data?.farmId;
+            string ver = data?.FarmId;
             Guid FarmId = new Guid(ver);
             string Name = data?.name;
             int Altitude = Convert.ToInt32(data?.altitude);
@@ -63,7 +63,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
        
 
         [FunctionName("GetFieldEndpoint")]
-        public static async Task<IActionResult> GetFieldModel(
+        public  async Task<IActionResult> GetFieldModel(
            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "FieldApi/{id}")] HttpRequest req, Guid id
            )
         {

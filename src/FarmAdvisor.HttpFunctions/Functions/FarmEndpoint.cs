@@ -37,7 +37,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
 
 
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-            string userId = data?.serId;
+            string userId = data?.userId;
 
             if (userId is null)
             {
@@ -70,7 +70,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
         }
 
         [FunctionName("GetFarmEndpoint")]
-        public static async Task<IActionResult> GetFarmModel(
+        public  async Task<IActionResult> GetFarmModel(
            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "FarmApi/{id}")] HttpRequest req, Guid id
           )
         {

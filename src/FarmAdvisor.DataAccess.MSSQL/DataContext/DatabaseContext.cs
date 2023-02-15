@@ -58,7 +58,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<UserModel>().ToTable("user");
             //Primary Key & Identity Column
             modelBuilder.Entity<UserModel>().HasKey(us => us.UserID);
-            modelBuilder.Entity<UserModel>().Property(us => us.UserID).HasColumnName("user_id").HasDefaultValue(Guid.NewGuid());
+            modelBuilder.Entity<UserModel>().Property(us => us.UserID).HasColumnName("user_id");
             //COLUMN SETTINGS 
             modelBuilder.Entity<UserModel>().Property(us => us.Name).HasMaxLength(100).HasColumnName("user_name").HasDefaultValue("user");
             modelBuilder.Entity<UserModel>().Property(us => us.Email).HasMaxLength(100).HasColumnName("email").HasDefaultValue("user@test.com");
@@ -117,8 +117,8 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<SensorModel>().Property(us => us.OptimalGDD).HasColumnName("optimal_gdd");
             modelBuilder.Entity<SensorModel>().Property(us => us.CuttingDateTimeCalculated).HasColumnName("estimated_date");
             modelBuilder.Entity<SensorModel>().Property(us => us.LastForecastDate).HasColumnName("last_forecast_date");
-            modelBuilder.Entity<SensorModel>().Property(us => us.State).HasConversion(
-            v => v!.ToString(), v => (StateEnum)StateEnum.Parse(typeof(StateEnum), v!)).HasMaxLength(250).HasColumnName("state");
+            modelBuilder.Entity<SensorModel>().Property(us => us.SensorState).HasConversion(
+            v => v!.ToString(), v => (State)State.Parse(typeof(State), v!)).HasMaxLength(250).HasColumnName("sensor_state");
             modelBuilder.Entity<SensorModel>()
                 .HasOne(us => us.Field)
                 .WithMany(b => b.Sensors)
