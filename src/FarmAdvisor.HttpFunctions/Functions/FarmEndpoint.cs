@@ -37,16 +37,16 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
 
 
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-            string userId = data?.userId;
+            string userId = data?.serId;
 
             if (userId is null)
             {
                 return new NotFoundObjectResult("No user Id provided");
             }
-            string Name = data?.name;
-            string PostCode = data?.postcode;
-            string City = data?.city;
-            string Country = data?.country;
+            string Name = data?.Name;
+            string PostCode = data?.Postcode;
+            string City = data?.City;
+            string Country = data?.Country;
 
             Guid UserId = new Guid(userId);
             UserModel user = await _crud.Find<UserModel>(UserId);

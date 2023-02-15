@@ -28,7 +28,7 @@ namespace FarmAdvisor.Models.Models
         //     sampleOffsets = new List<int>();
         // }
 
-        public Guid SensorId { get; set; }
+        public Guid SensorId { get; set; } = new Guid();
 
         [JsonIgnore]
         [IgnoreDataMember]

@@ -63,7 +63,7 @@ namespace FarmAdvisor_HttpFunctions.Functionsw
        
 
         [FunctionName("GetFieldEndpoint")]
-        public async Task<IActionResult> GetFieldModel(
+        public async  Task<IActionResult> GetFieldModel(
            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "FieldApi/{id}")] HttpRequest req, Guid id
            )
         {

@@ -89,12 +89,13 @@ namespace FarmAdvisor.HttpFunctions.Functions
         Summary = "If no sensordata can be fetched",
         Description = "If no sensordata can be fetched")]
         public async Task<IActionResult> UpsertSensorDatas([HttpTrigger(AuthorizationLevel.Function, "post", Route = "users/farms/fields/sensorData")] HttpRequest req) {
-            SensorApi api = new SensorApi();
+            SensorApi api = new SensorApi(); 
             List<SensorData> sensorDatas = api.getReadings();
             Console.WriteLine(sensorDatas[0].ToString());
             foreach (SensorData data in sensorDatas) {
                 Console.WriteLine(data.ToString());
                 await _crud.Create<SensorData>(data);
+            
             }
             
             return new OkObjectResult(sensorDatas);

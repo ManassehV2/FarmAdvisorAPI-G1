@@ -139,7 +139,7 @@ namespace FarmAdvisor.DataAccess.MSSQL.DataContext
             modelBuilder.Entity<SensorModel>().Property(us => us.CuttingDateTimeCalculated).HasColumnName("estimated_date");
             modelBuilder.Entity<SensorModel>().Property(us => us.LastForecastDate).HasColumnName("last_forecast_date");
             modelBuilder.Entity<SensorModel>().Property(us => us.State).HasConversion(
-            v => v!.ToString(), v => (StateEnum)StateEnum.Parse(typeof(StateEnum), v)).HasMaxLength(250).HasColumnName("state");
+            v => v!.ToString(), v => (StateEnum)StateEnum.Parse(typeof(StateEnum), v!)).HasMaxLength(250).HasColumnName("state");
             modelBuilder.Entity<SensorModel>()
                 .HasOne(us => us.Field)
                 .WithMany(b => b.Sensors)

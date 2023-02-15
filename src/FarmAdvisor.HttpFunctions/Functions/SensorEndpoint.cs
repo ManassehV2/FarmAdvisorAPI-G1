@@ -36,7 +36,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-            string serialNumber = data?.serialNumber;
+            string serialNumber = data?.SerialNumber;
 
             SensorModel prevSensor;
             using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
@@ -52,15 +52,15 @@ namespace FarmAdvisor_HttpFunctions.Functions
 
                 try
                 {
-                    lastCommunication = DateTime.Parse( data?.lastCommunication.ToString());
-                    cuttingDateTimeCalculated = DateTime.Parse( data?.cuttingDateTimeCalculated.ToString());
-                    lastForecastData = DateTime.Parse(data?.lastForecastData.ToString());
+                    lastCommunication = DateTime.Parse( data?.LastCommunication.ToString());
+                    cuttingDateTimeCalculated = DateTime.Parse( data?.CuttingDateTimeCalculated.ToString());
+                    lastForecastData = DateTime.Parse(data?.LastForecastData.ToString());
                 }
                 catch (FormatException ex)
                 {
                     return new BadRequestObjectResult(ex);
                 }
-                string ver = data?.fieldId;
+                string ver = data?.FieldId;
                 Guid FieldId = new Guid(ver);
 
                 FieldModel field = await _crud.Find<FieldModel>(FieldId);
@@ -69,11 +69,11 @@ namespace FarmAdvisor_HttpFunctions.Functions
                     return new NotFoundObjectResult("No farm found");
                 }
 
-                int batteryStatus = data?.batteryStatus;
-                int optimalGDD = data?.optimalGDD;
+                int batteryStatus = data?.BatteryStatus;
+                int optimalGDD = data?.OptimalGDD;
                 
-                double lat = data?.lat;
-                double longt = data?.longt;
+                double lat = data?.Lat;
+                double longt = data?.Longt;
                 StateEnum state = (StateEnum)StateEnum.Parse(typeof(StateEnum), data?.state.ToString());
                 var sensor = new SensorModel { SensorId = Guid.NewGuid(), SerialNumber = serialNumber, LastCommunication = lastCommunication, BatteryStatus = batteryStatus, OptimalGDD = optimalGDD, CuttingDateTimeCalculated = cuttingDateTimeCalculated, LastForecastDate = lastCommunication, Lat = lat, Long = longt, State = state };
 

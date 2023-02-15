@@ -33,7 +33,7 @@ namespace FarmAdvisor_HttpFunctions.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-            string phone = data?.phone;
+            string phone = data?.Phone;
 
             UserModel prevUser;
             using (var context = new DatabaseContext(DatabaseContext.Options.DatabaseOptions))
@@ -45,9 +45,9 @@ namespace FarmAdvisor_HttpFunctions.Functions
                 return new ConflictObjectResult("Phone exists");
             }
 
-            string name = data?.name;
-            string email = data?.email;
-            string authId = data?.authId;
+            string name = data?.Name;
+            string email = data?.Email;
+            string authId = data?.AuthId;
 
             var user = new UserModel { Name = name, Phone = phone, Email = email, AuthId = authId };
 
